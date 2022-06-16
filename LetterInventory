@@ -1,0 +1,102 @@
+// Rangganatha Siregar and Elaine Hsu 
+// 13 May 2022
+// CS 145
+// Lab 3: Letter Inventory
+// In this assignment, you will implement a class called LetterInventory that 
+// can be used to keep track of an inventory of letters of the alphabet
+
+import java.util.*;
+
+public class LetterInventory {
+ private static final int ALPHABET = 26; 
+ private int[] count;
+ private int ds; 
+
+ public LetterInventory(String data) {
+ ds = 0;
+ count = new int[ALPHABET];
+ String dataNew = data.toLowerCase();
+ for (int i = 0; i < dataNew.length(); i++) {
+ char letter = dataNew.charAt(i);
+ if (letter >= 'a' && letter <= 'z') {
+ int index = letter - 'a';
+ count[index]++;
+ ds++;
+     }
+   }
+ }
+
+ public int get(char letter) {
+ char letterLowerCase = Character.toLowerCase(letter);
+ if (letterLowerCase < 'a' || letterLowerCase > 'z') {
+ throw new IllegalArgumentException("Nonalphabetic Character");
+ } 
+ int index = letterLowerCase - 'a';
+ return count[index];
+ }
+
+ public void set(char letter, int value) {
+ char letterLowerCase = Character.toLowerCase(letter);
+ if (value < 0 || letterLowerCase < 'a' || letterLowerCase > 'z') {
+ throw new IllegalArgumentException("Nonalphabetic character or negativevalue");
+ }
+ int index = letterLowerCase - 'a';
+ ds = ds - count[index];
+ count[index] = value;
+ ds = ds + value;
+ }
+
+ public int size() {
+ return ds;
+ }
+
+ public boolean isEmpty() {
+
+}
+return ds == 0;
+ }
+
+ public String toString() {
+ String data = "";
+ data += "[";
+ char letter;
+ for (int i = 0; i < ALPHABET; i++) {
+ letter = (char)('a' + i);
+ int counter = count[i];
+ for (int j = 0; j < counter; j++) {
+ data += letter;
+ }
+ }
+ data += "]";
+ return data;
+ }
+
+ public LetterInventory add(LetterInventory other) {
+ LetterInventory li = new LetterInventory("");
+ int total;
+ char letter;
+ for (int i = 0; i < ALPHABET; i++) {
+ letter = (char) ('a' + i);
+ total = this.get(letter) + other.get(letter);
+ li.set(letter, total);
+ }
+ return li;
+ }
+
+ public LetterInventory subtract(LetterInventory other) {
+ LetterInventory li = new LetterInventory("");
+ int diff;
+ char letter;
+ for (int i = 0; i < ALPHABET; i++) {
+ letter = (char) ('a' + i);
+ diff = this.get(letter) - other.get(letter);
+ if (diff < 0) {
+ return null;
+ }
+ li.set(letter, diff);
+ }
+ return li;
+ }
+}
+
+ 
